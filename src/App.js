@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Button, Pagination } from 'antd'
+
+const testHOC = (WrappedComponent) => {
+    return class HOCComponent extends Component {
+        render() {
+            return (
+                <>
+                    <WrappedComponent />
+                    <p>这是一个高阶组件</p>
+                </>
+            )
+        }
+    }
 }
 
-export default App;
+@testHOC
+class App extends Component {
+    render() {
+        return (
+            <div>
+                <Button type="primary">默认按钮</Button>
+                <Pagination showQuickJumper defaultCurrent={2} total={500} />
+            </div>
+        )
+    }
+}
+
+export default App
