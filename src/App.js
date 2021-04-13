@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 
-import { Button, Pagination } from 'antd'
+import { Route, Switch, Redirect } from 'react-router-dom'
+
+import { adminRoute } from './routes'
 
 // const testHOC = (WrappedComponent) => {
 //     return class HOCComponent extends Component {
@@ -21,10 +23,25 @@ class App extends Component {
         console.log(this.props)
 
         return (
-            <div>
-                <Button type="primary">默认按钮</Button>
-                <Pagination showQuickJumper defaultCurrent={2} total={500} />
-            </div>
+            <>
+                <div>这里是公共部分</div>
+                <Switch>
+                    {adminRoute.map((route) => {
+                        return (
+                            <Route
+                                key={route.pathname}
+                                path={route.pathname}
+                                exact={route.exact}
+                                render={(routerProps) => {
+                                    return <route.component {...routerProps} />
+                                }}
+                            />
+                        )
+                    })}
+                    <Redirect to={adminRoute[0].pathname} from="/admin" exact />
+                    <Redirect to="/404" />
+                </Switch>
+            </>
         )
     }
 }
