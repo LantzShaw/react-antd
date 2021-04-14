@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 
+import moment from 'moment'
+
 import { Card, Button, Table, Tag } from 'antd'
 
 import { getArticles } from '../../services'
+
+const ButtonGroup = Button.Group
 
 const titleDisplayMap = {
     id: 'ID',
     title: '标题',
     author: '作者',
     amount: '阅读量',
-    createdAt: '创建时间',
+    createAt: '创建时间',
 }
 
 export default class ArticleList extends Component {
@@ -17,68 +21,11 @@ export default class ArticleList extends Component {
         super()
 
         this.state = {
-            columns: [
-                {
-                    title: 'Name',
-                    dataIndex: 'name',
-                    key: 'name',
-                    align: 'center',
-                },
-                {
-                    title: 'Age',
-                    dataIndex: 'age',
-                    key: 'age',
-                    align: 'center',
-                },
-                {
-                    title: 'Address',
-                    dataIndex: 'address',
-                    key: 'address',
-                    align: 'center',
-                },
-                {
-                    title: 'Tags',
-                    dataIndex: 'tags',
-                    key: 'tags',
-                    align: 'center',
-                    render: (text, record, index) =>
-                        text.map((item) => (
-                            <Tag key={item} color="magenta">
-                                {item}
-                            </Tag>
-                        )),
-                },
-                {
-                    title: 'Action',
-                    dataIndex: 'action',
-                    key: 'action',
-                    align: 'center',
-                    render: () => {
-                        return (
-                            <>
-                                <Button>编辑</Button>
-                                <Button>删除</Button>
-                            </>
-                        )
-                    },
-                },
-            ],
-            tableData: [
-                {
-                    key: '1',
-                    name: 'John Brown',
-                    age: 32,
-                    address: 'New York No. 1 Lake Park',
-                    tags: ['nice', 'developer'],
-                },
-                {
-                    key: '2',
-                    name: 'John Brown',
-                    age: 32,
-                    address: 'New York No. 1 Lake Park',
-                    tags: ['nice', 'developer'],
-                },
-            ],
+            columns: [],
+            tableData: [],
+            isLoading: false,
+            offset: 0,
+            pageSize: 10,
             total: null,
         }
     }
@@ -88,7 +35,7 @@ export default class ArticleList extends Component {
     }
 
     createColumns = (columnKeys) => {
-        return columnKeys.map((item) => {
+        const columns = columnKeys.map((item) => {
             if (item === 'amount') {
                 // 这里不要dataIndex
                 return {
@@ -112,6 +59,15 @@ export default class ArticleList extends Component {
                 }
             }
 
+            if (item === 'createAt') {
+                return {
+                    title: titleDisplayMap[item],
+                    key: item,
+                    align: 'center',
+                    render: (text, record, index) => moment(record.createAt).format('YYYY年MM月DD日'),
+                }
+            }
+
             return {
                 title: titleDisplayMap[item],
                 dataIndex: item,
@@ -119,11 +75,34 @@ export default class ArticleList extends Component {
                 align: 'center',
             }
         })
+
+        columns.push({
+            title: '操作',
+            key: 'action',
+            align: 'center',
+            render: (text, record, index) => {
+                return (
+                    <ButtonGroup>
+                        <Button type="primary" size="small">
+                            编辑
+                        </Button>
+                        <Button size="small">删除</Button>
+                    </ButtonGroup>
+                )
+            },
+        })
+
+        return columns
+    }
+
+    handlePageChange(page, pageSize) {
+        console.log({ page, pageSize })
     }
 
     getData() {
+        this.setState({ isLoading: true })
+
         getArticles().then((res) => {
-            console.log('res', res)
             const columnKeys = Object.keys(res.list[0])
 
             const columns = this.createColumns(columnKeys)
@@ -132,6 +111,7 @@ export default class ArticleList extends Component {
                 total: res.total,
                 columns,
                 tableData: res.list,
+                isLoading: false,
             })
         })
     }
@@ -139,7 +119,13 @@ export default class ArticleList extends Component {
     render() {
         return (
             <Card title="文章管理" bordered={false} style={{ height: '100%' }} extra={<Button type="primary">导出数据</Button>}>
-                <Table columns={this.state.columns} dataSource={this.state.tableData} loading={false} pagination={{ total: this.state.total, hideOnSinglePage: true }} />
+                <Table
+                    rowKey={(record) => record.id}
+                    columns={this.state.columns}
+                    dataSource={this.state.tableData}
+                    loading={this.state.isLoading}
+                    pagination={{ total: this.state.total, hideOnSinglePage: true, onChange: this.handlePageChange }}
+                />
             </Card>
         )
     }
