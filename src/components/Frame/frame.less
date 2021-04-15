@@ -1,7 +1,7 @@
 .react-header {
-    background-color: #fff;
-    border-bottom: 1px solid #f2f2f2;
-
+    background-color: #ecf0f3;
+    // border-bottom: 1px solid #ceced1;
+    box-shadow: inset -3px -3px 7px #fff, inset 3px 3px 5px #ceced1;
     .react-logo {
         height: 48px;
 
@@ -9,4 +9,26 @@
             height: 100%;
         }
     }
+
+    .react-hover:hover {
+        box-shadow: inset -3px -3px 7px #fff, inset 3px 3px 5px #ceced1;
+        color: #2f54eb;
+        cursor: pointer;
+        background-color: rgba(47, 84, 235, 0.1);
+    }
+}
+
+.ant-menu-item-selected {
+    box-shadow: inset -3px -3px 7px #fff, inset 3px 3px 5px #ceced1;
+}
+
+.ant-layout-sider-trigger {
+    background: #ecf0f3;
+    color: #ceced1;
+    font-weight: bold;
+    box-shadow: -3px -3px 7px #fff, 3px 3px 5px #ceced1;
+}
+
+.ant-layout-sider {
+    background: #ecf0f3;
 }

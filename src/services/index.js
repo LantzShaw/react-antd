@@ -31,6 +31,6 @@ ajax.interceptors.response.use((res) => {
     }
 })
 
-export const getArticles = () => {
-    return ajax.post('/api/v1/articleList')
+export const getArticles = (params) => {
+    return ajax.post('/api/v1/articleList', { offset: params.offset, limited: params.limited })
 }

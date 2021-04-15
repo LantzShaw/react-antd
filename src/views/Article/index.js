@@ -25,7 +25,7 @@ export default class ArticleList extends Component {
             tableData: [],
             isLoading: false,
             offset: 0,
-            pageSize: 10,
+            limited: 10,
             total: null,
         }
     }
@@ -37,21 +37,11 @@ export default class ArticleList extends Component {
     createColumns = (columnKeys) => {
         const columns = columnKeys.map((item) => {
             if (item === 'amount') {
-                // 这里不要dataIndex
                 return {
                     title: titleDisplayMap[item],
-                    // dataIndex: item,
                     key: item,
                     align: 'center',
                     render: (text, record, index) => {
-                        // const titleMap = {
-                        //     '001': '总经理',
-                        //     '002': '经理',
-                        //     '003': '主管'
-                        // }
-
-                        // return <Tag color={titleMap[titleKey] > 150 ? 'purple' : 'red'}>{titleMap[titleKey]}</Tag>
-
                         const { amount } = record
 
                         return <Tag color={amount > 150 ? 'purple' : 'red'}>{record.amount}</Tag>
@@ -95,14 +85,36 @@ export default class ArticleList extends Component {
         return columns
     }
 
-    handlePageChange(page, pageSize) {
-        console.log({ page, pageSize })
+    handlePageChange = (page, pageSize) => {
+        this.setState(
+            {
+                offset: pageSize * (page - 1),
+                limited: pageSize,
+            },
+            () => {
+                this.getData()
+            }
+        )
+    }
+
+    handleSizeChange = (current, size) => {
+        console.log(current, size)
+
+        this.setState(
+            {
+                offset: 0,
+                limited: size,
+            },
+            () => {
+                this.getData()
+            }
+        )
     }
 
     getData() {
         this.setState({ isLoading: true })
 
-        getArticles().then((res) => {
+        getArticles({ offset: this.state.offset, limited: this.state.limited }).then((res) => {
             const columnKeys = Object.keys(res.list[0])
 
             const columns = this.createColumns(columnKeys)
@@ -117,6 +129,9 @@ export default class ArticleList extends Component {
     }
 
     render() {
+        console.log(this.state.offset)
+        console.log(this.state.limited)
+        console.log('page', this.state.offset / this.state.limited + 1)
         return (
             <Card title="文章管理" bordered={false} style={{ height: '100%' }} extra={<Button type="primary">导出数据</Button>}>
                 <Table
@@ -124,7 +139,15 @@ export default class ArticleList extends Component {
                     columns={this.state.columns}
                     dataSource={this.state.tableData}
                     loading={this.state.isLoading}
-                    pagination={{ total: this.state.total, hideOnSinglePage: true, onChange: this.handlePageChange }}
+                    pagination={{
+                        current: this.state.offset / this.state.limited + 1,
+                        total: this.state.total,
+                        showSizeChanger: true,
+                        hideOnSinglePage: true,
+                        onChange: this.handlePageChange,
+                        showQuickJumper: true,
+                        onShowSizeChange: this.handleSizeChange,
+                    }}
                 />
             </Card>
         )
