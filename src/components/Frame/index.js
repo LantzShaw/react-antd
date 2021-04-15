@@ -23,12 +23,12 @@ class Frame extends Component {
             <Layout style={{ height: '100%' }}>
                 <Header className="header react-header">
                     <Row align={'middle'} style={{ height: '100%' }}>
-                        <Col flex={12}>
+                        <Col flex={17}>
                             <div className="logo react-logo">
                                 <img src={logo} alt="" />
                             </div>
                         </Col>
-                        <Col flex={1} offset={15}>
+                        <Col flex={1} offset={18}>
                             <div
                                 className="react-hover"
                                 style={{
