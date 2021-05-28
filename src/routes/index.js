@@ -1,4 +1,4 @@
-import { Login, Dashboard, Settings, NotFound, ArticleList, ArticleEdit } from '../views'
+import { Login, Dashboard, Settings, NotFound, ArticleList, ArticleEdit, Notifications } from '../views'
 
 import { DashboardOutlined, ProfileOutlined, SettingOutlined } from '@ant-design/icons'
 
@@ -32,6 +32,10 @@ export const adminRoute = [
     {
         pathname: '/admin/article/edit/:id',
         component: ArticleEdit,
+    },
+    {
+        pathname: '/admin/notification',
+        component: Notifications,
     },
     {
         pathname: '/admin/settings',

@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class Settings extends Component {
-    render() {
-        return <div>设置页</div>
-    }
+export default function Settings() {
+  return <div>settings</div>
 }

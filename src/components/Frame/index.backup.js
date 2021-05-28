@@ -74,7 +74,10 @@ class Frame extends Component {
 
     return (
       <Layout style={{ minHeight: '100vh' }}>
-        <Header className="header react-header">
+        <Header
+          className="header react-header"
+          style={{ position: 'fixed', zIndex: 1, width: '100%' }}
+        >
           <div className="logo react-logo">
             <img src={logo} alt="" />
           </div>
@@ -155,6 +158,40 @@ class Frame extends Component {
             <Avatar src={Lantz} />
           </div>
         </Header>
+        <Sider
+          width={200}
+          collapsible
+          style={{
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            top: '63px',
+            left: 0
+          }}
+        >
+          <Menu
+            mode="inline"
+            onClick={this.handleMenuClick}
+            // selectedKeys={[this.props.location.pathname]}
+            selectedKeys={[selectedKeyArr.join('/')]}
+            style={{
+              height: '100%',
+              borderRight: 0,
+              background: '#ecf0f3',
+              padding: '0 0px 0px',
+              boxShadow: 'inset -3px -3px 7px #fff, inset 3px 3px 5px #ceced1'
+            }}
+          >
+            {this.props.menu.map(route => {
+              return (
+                <Menu.Item key={route.pathname} icon={<route.icon />}>
+                  {route.title}
+                </Menu.Item>
+              )
+            })}
+          </Menu>
+        </Sider>
+
         <Layout
           style={{
             background: '#ecf0f3',
@@ -162,43 +199,20 @@ class Frame extends Component {
             boxShadow: 'inset -3px -3px 7px #fff, inset 3px 3px 5px #ceced1'
           }}
         >
-          <Sider width={200} collapsible className="site-layout-background">
-            <Menu
-              mode="inline"
-              onClick={this.handleMenuClick}
-              // selectedKeys={[this.props.location.pathname]}
-              selectedKeys={[selectedKeyArr.join('/')]}
-              style={{
-                height: '100%',
-                borderRight: 0,
-                background: '#ecf0f3',
-                padding: '0 0px 0px',
-                boxShadow: 'inset -3px -3px 7px #fff, inset 3px 3px 5px #ceced1'
-              }}
-            >
-              {this.props.menu.map(route => {
-                return (
-                  <Menu.Item key={route.pathname} icon={<route.icon />}>
-                    {route.title}
-                  </Menu.Item>
-                )
-              })}
-            </Menu>
-          </Sider>
-          <Layout
+          <Content
+            className="site-layout site-layout-background"
             style={{
-              background: '#ecf0f3',
-              padding: '0 0px 0px',
+              padding: '0 50px',
+              paddingBottom: '20px',
+              paddingTop: '15px',
+              marginTop: '64px',
+              margin: '65px 0px 0 0px',
+              overflow: 'initial',
               boxShadow: 'inset -3px -3px 7px #fff, inset 3px 3px 5px #ceced1'
             }}
           >
-            <Content
-              className="site-layout-background"
-              style={{ margin: '24px 16px 0', overflow: 'initial' }}
-            >
-              {this.props.children}
-            </Content>
-          </Layout>
+            {this.props.children}
+          </Content>
         </Layout>
       </Layout>
     )

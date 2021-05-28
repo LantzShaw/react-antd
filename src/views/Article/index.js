@@ -73,7 +73,7 @@ export default class ArticleList extends Component {
             render: (text, record, index) => {
                 return (
                     <ButtonGroup>
-                        <Button type="primary" size="small">
+                        <Button type="primary" size="small" onClick={this.toEdit.bind(this, record.id)}>
                             编辑
                         </Button>
                         <Button size="small">删除</Button>
@@ -85,7 +85,14 @@ export default class ArticleList extends Component {
         return columns
     }
 
+    toEdit = (id) => {
+        this.props.history.push(`/admin/article/edit/${id}`)
+    }
+
     handlePageChange = (page, pageSize) => {
+        console.log('on1', pageSize)
+
+        console.log('world')
         this.setState(
             {
                 offset: pageSize * (page - 1),
@@ -98,12 +105,9 @@ export default class ArticleList extends Component {
     }
 
     handleSizeChange = (current, size) => {
-        console.log(current, size)
-
         this.setState(
             {
                 offset: 0,
-                limited: size,
             },
             () => {
                 this.getData()
@@ -129,9 +133,6 @@ export default class ArticleList extends Component {
     }
 
     render() {
-        console.log(this.state.offset)
-        console.log(this.state.limited)
-        console.log('page', this.state.offset / this.state.limited + 1)
         return (
             <Card title="文章管理" bordered={false} style={{ height: '100%' }} extra={<Button type="primary">导出数据</Button>}>
                 <Table
