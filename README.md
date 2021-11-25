@@ -31,11 +31,30 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `yarn eject`
 
-### 记录
+### Records
+
+```bash
+    # hooks
+    useState、useEffect、useContext、useCallback、useMemo、useRef、useReducer、useLayoutEffect
+```
+
+### Questions
+
+#### 1.
+
+### Codes
+
+### Project
+
+信息管理: 产品管理、咨询管理、常见问题、相册管理
+权限管理: 角色管理、用户管理、资源管理
+辅助管理: 分类管理、关键字、上传管理
+常见设置: 广告管理、退出系统
+菜单管理:
 
 ```js
-createColumns = (columnKeys) => {
-    const columns = columnKeys.map((item) => {
+createColumns = columnKeys => {
+    const columns = columnKeys.map(item => {
         if (item === 'amount') {
             // 这里不要dataIndex
             return {
@@ -54,8 +73,12 @@ createColumns = (columnKeys) => {
 
                     const { amount } = record
 
-                    return <Tag color={amount > 150 ? 'purple' : 'red'}>{record.amount}</Tag>
-                },
+                    return (
+                        <Tag color={amount > 150 ? 'purple' : 'red'}>
+                            {record.amount}
+                        </Tag>
+                    )
+                }
             }
         }
 
@@ -64,7 +87,8 @@ createColumns = (columnKeys) => {
                 title: titleDisplayMap[item],
                 key: item,
                 align: 'center',
-                render: (text, record, index) => moment(record.createAt).format('YYYY年MM月DD日'),
+                render: (text, record, index) =>
+                    moment(record.createAt).format('YYYY年MM月DD日')
             }
         }
 
@@ -72,7 +96,7 @@ createColumns = (columnKeys) => {
             title: titleDisplayMap[item],
             dataIndex: item,
             key: item,
-            align: 'center',
+            align: 'center'
         }
     })
 
@@ -89,7 +113,7 @@ createColumns = (columnKeys) => {
                     <Button size="small">删除</Button>
                 </ButtonGroup>
             )
-        },
+        }
     })
 
     return columns

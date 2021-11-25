@@ -17,26 +17,32 @@ import { mainRoute } from './routes'
 import './index.less'
 
 render(
-  <Provider store={store}>
-    <ConfigProvider locale={zhCN}>
-      <Router>
-        <Switch>
-          <Route
-            path="/admin"
-            render={(routerProps) => {
-              // TODO: 这里要做权限验证
-              return <App {...routerProps} />
-            }}
-          />
+    <Provider store={store}>
+        <ConfigProvider locale={zhCN}>
+            <Router>
+                <Switch>
+                    <Route
+                        path="/admin"
+                        render={routerProps => {
+                            // TODO: 这里要做权限验证
+                            return <App {...routerProps} />
+                        }}
+                    />
 
-          {mainRoute.map((item) => {
-            return <Route key={item.pathname} path={item.pathname} component={item.component} />
-          })}
-          <Redirect to="/admin" from="/" exact />
-          <Redirect to="/404" />
-        </Switch>
-      </Router>
-    </ConfigProvider>
-  </Provider>,
-  document.querySelector('#root')
+                    {mainRoute.map(item => {
+                        return (
+                            <Route
+                                key={item.pathname}
+                                path={item.pathname}
+                                component={item.component}
+                            />
+                        )
+                    })}
+                    <Redirect to="/admin" from="/" exact />
+                    <Redirect to="/404" />
+                </Switch>
+            </Router>
+        </ConfigProvider>
+    </Provider>,
+    document.querySelector('#root')
 )

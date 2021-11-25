@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-
 import moment from 'moment'
-
 import { Card, Button, Table, Tag } from 'antd'
 
 import { getArticles } from '../../services'
@@ -13,7 +11,7 @@ const titleDisplayMap = {
     title: '标题',
     author: '作者',
     amount: '阅读量',
-    createAt: '创建时间',
+    createAt: '创建时间'
 }
 
 export default class ArticleList extends Component {
@@ -26,7 +24,7 @@ export default class ArticleList extends Component {
             isLoading: false,
             offset: 0,
             limited: 10,
-            total: null,
+            total: null
         }
     }
 
@@ -34,8 +32,8 @@ export default class ArticleList extends Component {
         this.getData()
     }
 
-    createColumns = (columnKeys) => {
-        const columns = columnKeys.map((item) => {
+    createColumns = columnKeys => {
+        const columns = columnKeys.map(item => {
             if (item === 'amount') {
                 return {
                     title: titleDisplayMap[item],
@@ -44,8 +42,12 @@ export default class ArticleList extends Component {
                     render: (text, record, index) => {
                         const { amount } = record
 
-                        return <Tag color={amount > 150 ? 'purple' : 'red'}>{record.amount}</Tag>
-                    },
+                        return (
+                            <Tag color={amount > 150 ? 'purple' : 'red'}>
+                                {record.amount}
+                            </Tag>
+                        )
+                    }
                 }
             }
 
@@ -54,7 +56,8 @@ export default class ArticleList extends Component {
                     title: titleDisplayMap[item],
                     key: item,
                     align: 'center',
-                    render: (text, record, index) => moment(record.createAt).format('YYYY年MM月DD日'),
+                    render: (text, record, index) =>
+                        moment(record.createAt).format('YYYY年MM月DD日')
                 }
             }
 
@@ -62,7 +65,7 @@ export default class ArticleList extends Component {
                 title: titleDisplayMap[item],
                 dataIndex: item,
                 key: item,
-                align: 'center',
+                align: 'center'
             }
         })
 
@@ -73,19 +76,23 @@ export default class ArticleList extends Component {
             render: (text, record, index) => {
                 return (
                     <ButtonGroup>
-                        <Button type="primary" size="small" onClick={this.toEdit.bind(this, record.id)}>
+                        <Button
+                            type="primary"
+                            size="small"
+                            onClick={this.toEdit.bind(this, record.id)}
+                        >
                             编辑
                         </Button>
                         <Button size="small">删除</Button>
                     </ButtonGroup>
                 )
-            },
+            }
         })
 
         return columns
     }
 
-    toEdit = (id) => {
+    toEdit = id => {
         this.props.history.push(`/admin/article/edit/${id}`)
     }
 
@@ -96,7 +103,7 @@ export default class ArticleList extends Component {
         this.setState(
             {
                 offset: pageSize * (page - 1),
-                limited: pageSize,
+                limited: pageSize
             },
             () => {
                 this.getData()
@@ -107,7 +114,7 @@ export default class ArticleList extends Component {
     handleSizeChange = (current, size) => {
         this.setState(
             {
-                offset: 0,
+                offset: 0
             },
             () => {
                 this.getData()
@@ -118,7 +125,10 @@ export default class ArticleList extends Component {
     getData() {
         this.setState({ isLoading: true })
 
-        getArticles({ offset: this.state.offset, limited: this.state.limited }).then((res) => {
+        getArticles({
+            offset: this.state.offset,
+            limited: this.state.limited
+        }).then(res => {
             const columnKeys = Object.keys(res.list[0])
 
             const columns = this.createColumns(columnKeys)
@@ -127,16 +137,21 @@ export default class ArticleList extends Component {
                 total: res.total,
                 columns,
                 tableData: res.list,
-                isLoading: false,
+                isLoading: false
             })
         })
     }
 
     render() {
         return (
-            <Card title="文章管理" bordered={false} style={{ height: '100%' }} extra={<Button type="primary">导出数据</Button>}>
+            <Card
+                title="文章管理"
+                bordered={false}
+                style={{ height: '100%' }}
+                extra={<Button type="primary">导出数据</Button>}
+            >
                 <Table
-                    rowKey={(record) => record.id}
+                    rowKey={record => record.id}
                     columns={this.state.columns}
                     dataSource={this.state.tableData}
                     loading={this.state.isLoading}
@@ -147,7 +162,7 @@ export default class ArticleList extends Component {
                         hideOnSinglePage: true,
                         onChange: this.handlePageChange,
                         showQuickJumper: true,
-                        onShowSizeChange: this.handleSizeChange,
+                        onShowSizeChange: this.handleSizeChange
                     }}
                 />
             </Card>

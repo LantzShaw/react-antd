@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.15.1",
+    "antd-theme-generator": "^1.2.10",
     "axios": "^0.21.1",
     "babel-plugin-import": "^1.13.3",
     "insert-css": "^2.0.0",
@@ -25,7 +26,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "node color && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"

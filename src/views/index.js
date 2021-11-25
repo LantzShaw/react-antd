@@ -22,38 +22,52 @@ import { Loading } from '../components'
 
 // 路由懒加载
 const Dashboard = Loadable({
-  loader: () => import('./Dashboard'),
-  loading: Loading
+    loader: () => import('./Dashboard'),
+    loading: Loading
 })
 
 const Settings = Loadable({
-  loader: () => import('./Settings'),
-  loading: Loading
+    loader: () => import('./Settings'),
+    loading: Loading
 })
 
 const Login = Loadable({
-  loader: () => import('./Login'),
-  loading: Loading
+    loader: () => import('./Login'),
+    loading: Loading
 })
 
 const NotFound = Loadable({
-  loader: () => import('./NotFound'),
-  loading: Loading
+    loader: () => import('./NotFound'),
+    loading: Loading
 })
 
 const ArticleList = Loadable({
-  loader: () => import('./Article'),
-  loading: Loading
+    loader: () => import('./Article'),
+    loading: Loading
 })
 
 const ArticleEdit = Loadable({
-  loader: () => import('./Article/ArticleEdit'),
-  loading: Loading
+    loader: () => import('./Article/ArticleEdit'),
+    loading: Loading
 })
 
 const Notifications = Loadable({
-  loader: () => import('./Notifications'),
-  loading: Loading
+    loader: () => import('./Notifications'),
+    loading: Loading
 })
 
-export { Login, Dashboard, Settings, NotFound, ArticleList, ArticleEdit, Notifications }
+const Product = Loadable({
+    loader: () => import('./Product'),
+    loading: Loading
+})
+
+export {
+    Login,
+    Dashboard,
+    Settings,
+    NotFound,
+    ArticleList,
+    ArticleEdit,
+    Notifications,
+    Product
+}

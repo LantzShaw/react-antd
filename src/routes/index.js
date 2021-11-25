@@ -1,16 +1,29 @@
-import { Login, Dashboard, Settings, NotFound, ArticleList, ArticleEdit, Notifications } from '../views'
+import {
+    Login,
+    Dashboard,
+    Settings,
+    NotFound,
+    ArticleList,
+    ArticleEdit,
+    Notifications,
+    Product
+} from '../views'
 
-import { DashboardOutlined, ProfileOutlined, SettingOutlined } from '@ant-design/icons'
+import {
+    DashboardOutlined,
+    ProfileOutlined,
+    SettingOutlined
+} from '@ant-design/icons'
 
 export const mainRoute = [
     {
         pathname: '/login',
-        component: Login,
+        component: Login
     },
     {
         pathname: '/404',
-        component: NotFound,
-    },
+        component: NotFound
+    }
 ]
 
 export const adminRoute = [
@@ -19,7 +32,15 @@ export const adminRoute = [
         component: Dashboard,
         title: '仪表盘',
         isNav: true,
-        icon: DashboardOutlined,
+        icon: DashboardOutlined
+    },
+    {
+        pathname: '/admin/product',
+        component: Product,
+        title: '产品管理',
+        isNav: true,
+        exact: true,
+        icon: ProfileOutlined
     },
     {
         pathname: '/admin/article',
@@ -27,21 +48,21 @@ export const adminRoute = [
         title: '文章管理',
         isNav: true,
         exact: true,
-        icon: ProfileOutlined,
+        icon: ProfileOutlined
     },
     {
         pathname: '/admin/article/edit/:id',
-        component: ArticleEdit,
+        component: ArticleEdit
     },
     {
         pathname: '/admin/notification',
-        component: Notifications,
+        component: Notifications
     },
     {
         pathname: '/admin/settings',
         component: Settings,
         title: '系统设置',
         isNav: true,
-        icon: SettingOutlined,
-    },
+        icon: SettingOutlined
+    }
 ]
