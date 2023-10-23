@@ -119,10 +119,19 @@ const mapStateToProps = state => {
 }
 
 // 需从props解构出来才能用
+// 第一种写法
 const mapDispatchToProps = {
     increase,
     decrease
 }
+
+// 第二种写法
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         increase: dispatch({ type: 'INCREASE', value: 1 }),
+//         decrease: dispatch(decrease())
+//     }
+// }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product)
 
